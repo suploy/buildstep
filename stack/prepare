@@ -7,6 +7,7 @@
 # SYSTEM PACKAGES
 #
 apt-get update
+apt-get remove ruby1.8
 xargs apt-get install -y --force-yes < /build/packages.txt
 apt-get clean
 
@@ -22,7 +23,13 @@ xargs -L 1 git clone --depth=1 < /build/buildpacks.txt
 #
 
 # Ruby buildpack system configuration
-update-alternatives --set ruby /usr/bin/ruby1.9.1
-update-alternatives --set gem /usr/bin/gem1.9.1
+mkdir /tmp/ruby && cd /tmp/ruby
+curl --progress ftp://ftp.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.gz | tar xz
+cd ruby-2.0.0-p353
+./configure --disable-install-rdoc
+make
+make install
+update-alternatives --set ruby /usr/bin/ruby2.0.0
+update-alternatives --set gem /usr/bin/gem2.0.0
 gem install bundler
 cd /build/buildpacks/heroku-buildpack-ruby && bundle install

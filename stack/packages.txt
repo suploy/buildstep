@@ -36,8 +36,6 @@ openssh-server
 postgresql
 postgresql-server-dev-9.1
 python-dev
-ruby1.9.1-dev
-rubygems
 socat
 sqlite3
 telnet
